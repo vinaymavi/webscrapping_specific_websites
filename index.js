@@ -1,7 +1,8 @@
 var request = require('request')
   , cheerio = require('cheerio');  
 
-var URL = "https://developers.google.com/products/";
+var URL = "http://www.cardekho.com/newcars",
+    carUrls=[];
 
 request(URL,function(error,response,html){
   // Error Handling
@@ -10,7 +11,13 @@ request(URL,function(error,response,html){
   }
 
   $=cheerio.load(html);
-  $('ul.alpha-sections>li').each(function(i,elem){
-    console.log($('div>h3',this).text());
-  }); 
+  
+  $('#brandsDiv>ul>li').each(function(i,elem){
+    var carObj={};
+    carObj.href = $('a',this).attr('href');
+    carObj.name = $('a>span',this)[1].attr('href');
+    carUrls.push(carObj);
+    console.log(carObj);
+  })  
+
 });
